@@ -1,4 +1,4 @@
-.TH SimpleShell 1 "November 2018" "1.0" "Holberton SimpleShell Manual"
+.TH SimpleShell 1 "May 2018" "1.0" "Holberton SimpleShell Manual"
 
 
 .SH NAME
@@ -45,4 +45,4 @@ No known bugs at this time. See status widget in the repositories README for upd
 
 
 .SH "AUTHORS"
-Connor Brereton and Bennett Dixon
+Ifeoluwa Adefioye and Patience Akogun
