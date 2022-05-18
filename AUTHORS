@@ -1,3 +1,5 @@
-List of contributors
-* Ifeoluwa Adefioye
-* Patience Akogun
+# file lists all individuals thatcontributed content to the repository.
+# For how it is generated, see `hack/generate-authors.sh`.
+
+Ifeoluwa Adefioye <ilieas300@gmail.com>
+Faith Akogun <patienceakogun4@gmail.com>
