@@ -1,34 +1,46 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
-#include <sys/wait.h>
-#include <sys/types.h>
+#ifndef SHELL
+#define SHELL
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 #include <unistd.h>
-#include <dirent.h>
-#include <limits.h>
 #include <string.h>
-
+#include <dirent.h>
+#include <stddef.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#define TOKENS_BUFFER_SIZE 64
+#define LINE_SIZE 1024
+#define TOKEN_DELIMITERS " \t\r\n\a"
 extern char **environ;
-
-char *show_input(void);
+/**
+ * struct builtins - Has builtins and associated funcs
+ * @arg: Builtins name
+ * @builtin: Mathcing builtin func
+ */
+typedef struct builtins
+{
+	char *arg;
+	void (*builtin)(char **args, char *line, char **env);
+} builtins_t;
+void shell(int ac, char **av, char **env);
+char *_getline(void);
+char **split_line(char *line);
+int execute_prog(char **args, char *line, char **env, int flow);
+int check_for_builtins(char **args, char *line, char **env);
+int launch_prog(char **args);
+void exit_shell(char **args, char *line, char **env);
+void env_shell(char **args, char *line, char **env);
+int _strcmp(char *s1, char *s2);
+char *find_path(char *args, char *tmp, char *er);
+char *search_cwd(char *filename, char *er);
+int bridge(char *check, char **args);
 void prompt(void);
-char *_strcat(char *src);
-int _strlen(char *str);
-void place(char *str);
-char *findfile(char *command);
-char *find_command(char *command);
-int compare(char *s1, char *s2);
-int _strcmpdir(char *s1, char *s2);
-int charput(char c);
-void place(char *str);
-char *str_concat(char *s1, char *s2);
-int lookforslash(char *cmd);
-int compareExit(char *s1, char *s2);
-int compareEnv(char *s1, char *s2);
-void execute_proc(char **cmd);
-char **identify_string(char *parameter);
-void controlC(int sig);
+int builtins_checker(char **args);
+char *save_path(char *tmp, char *path);
+char *read_dir(char *er, struct dirent *s, char *fi, int l, char *p, char *t);
+char *_getenv(char *env);
+char *_strstr(char *haystack, char *needle);
+int _strlen(char *s);
 #endif
