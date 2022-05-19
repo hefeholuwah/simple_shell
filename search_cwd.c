@@ -1,20 +1,44 @@
 #include "shell.h"
-
 /**
- * main - Entry point for shell, handles args to shell
- * @ac: Arg count
- * @av: Arr of args
- * @env: Environment
- * Return: 0;
+ * search_cwd - look for current working dir
+ * @filename: file name
+ * Return: current working dir
  */
-int main(int ac, char **av, char **env)
+char *search_cwd(char *filename, char *er)
 {
-	if (!ac)
-		(void)ac;
-	if (!av)
-		(void)av;
-	if (!env)
-		(void)env;
-	shell(ac, av, env);
-	return (0);
+	DIR *dir;
+	struct dirent *sd;
+	char *ret;
+	int len = 0;
+	int i = 0;
+
+	while (filename[len])
+		len++;
+	ret = malloc(sizeof(char) * (len + 3));
+	dir = opendir(".");
+	if (!dir)
+	{
+		printf("Error! Unable to open directory.\n");
+		exit(0);
+	}
+	while ((sd = readdir(dir)))
+	{
+		for (i = 0; sd->d_name[i] && filename[i]; i++)
+		{
+			if (sd->d_name[i] != filename[i])
+				break;
+			if (i == (len - 1) && !(sd->d_name[i + 1]))
+			{
+				strcpy(ret, "./");
+				strcat(ret, filename);
+				closedir(dir);
+				if (!(access(ret, X_OK)))
+					return (ret);
+				else
+					write(2, er, 5);
+			}
+		}
+	}
+	closedir(dir);
+	return (er);
 }
